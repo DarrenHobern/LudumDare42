@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class PlayerScript : MonoBehaviour {
+public class PlayerScript : Entity {
 
     const string HORIZONTALINPUT = "Horizontal{0}";
     const string VERTICALINPUT = "Vertical{0}";
@@ -12,18 +12,11 @@ public class PlayerScript : MonoBehaviour {
     private string horizontalInput = "Horizontal0";
     private string verticalInput = "Vertical0";
     private Vector3Int direction = Vector3Int.up;
-    private Colour playerColour = null;
-    private SpriteRenderer spriteRenderer;
 
-    private void Awake()
+    public void SetPlayerColour(Colour playerColour)
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    public void SetPlayerColour(Colour colour)
-    {
-        playerColour = colour;
-        spriteRenderer.sprite = playerColour.goodSprite;
+        colour = playerColour;
+        // TODO change the player sprite to their colour
     }
 
     public void SetPlayerNumber(int number)
@@ -34,7 +27,6 @@ public class PlayerScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        print(horizontalInput);
         float horizontal = Input.GetAxisRaw(horizontalInput);
         float vertical = Input.GetAxisRaw(verticalInput);
 
@@ -50,7 +42,7 @@ public class PlayerScript : MonoBehaviour {
 
     public void MoveStep()
     {
-        transform.position = transform.position + direction;
+        transform.position = Vector3Int.RoundToInt(transform.position + direction);
         // Spawn a trail thing here?
     }
 }

@@ -6,8 +6,11 @@ public class GameController : MonoBehaviour {
 
     #region board
     // ========== BOARD ==========
+    [SerializeField] GameObject EntityPrefab;
     [SerializeField] Transform worldTransform;
-    // TODO 2d array rep of board here
+    const int WIDTH = 18;
+    const int HEIGHT = 10;
+    Entity[,] board = new Entity[HEIGHT, WIDTH];
     #endregion
 
     #region Player
@@ -46,10 +49,23 @@ public class GameController : MonoBehaviour {
 
     void StartGame() {
         // Initialise the board
+        GenerateBoard();
         // Spawn the players
         SpawnPlayers();
         StartCoroutine(MoveCycle());
         //StartCoroutine(SpreadCycle());
+    }
+
+    private void GenerateBoard()
+    {
+        for (int r = 0; r < HEIGHT; r++)
+        {
+            for (int c = 0; c < WIDTH; c++)
+            {
+                GameObject instance = Instantiate(EntityPrefab, new Vector3(c, r)+worldTransform.position, Quaternion.identity, worldTransform);
+                board[r, c] = instance.GetComponent<Entity>();
+            }
+        }
     }
 
     IEnumerator MoveCycle()
@@ -57,8 +73,7 @@ public class GameController : MonoBehaviour {
         while (true) // TODO change this to playing game state or something
         {
             for (int i = 0; i < playersList.Count; i++)
-            {
-                
+            { 
                 playersList[i].MoveStep();
             }
             yield return moveWaitTime;
@@ -72,8 +87,6 @@ public class GameController : MonoBehaviour {
         {
             // TODO spread blight here
         }
-
-         
          */
         yield return moveWaitTime;
     }
@@ -89,6 +102,7 @@ public class GameController : MonoBehaviour {
             playerScript.SetPlayerNumber(i);
             playersList.Add(playerScript);
 
+            //board[spawnPoints[i].y, spawnPoints[i].x] = playerScript;
         }
     }
 	
