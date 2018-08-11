@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Player", menuName = "Colour")]
 public class Colour : ScriptableObject {
 
-    public Sprite goodSprite;
-    public Sprite blightSprite;
-
+    public Sprite trail;
+    public Sprite blight;
 }

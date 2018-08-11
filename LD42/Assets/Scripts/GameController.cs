@@ -73,11 +73,59 @@ public class GameController : MonoBehaviour {
         while (true) // TODO change this to playing game state or something
         {
             for (int i = 0; i < playersList.Count; i++)
-            { 
-                playersList[i].MoveStep();
+            {
+                PlayerScript player = playersList[i];
+                // Add the trail under the players current position
+                Vector2Int oldPos = Vector2Int.RoundToInt(player.transform.localPosition);
+                board[oldPos.y, oldPos.x].SetSprite(player.colour.trail);
+                board[oldPos.y, oldPos.x].tag = "Trail";
+
+                // move the player, checking that they can move to the new spot
+                Vector2Int newPos = oldPos + Vector2Int.RoundToInt((Vector3)player.Direction);
+                if (CheckAhead(player, newPos))
+                {
+                    print("VALID!");
+                    player.MoveStep();
+                }
+                board[newPos.y, newPos.x] = player;
             }
+
+            RefreshGameState();
             yield return moveWaitTime;
         }
+    }
+
+    /// <summary>
+    /// Returns true if the given position is able to be spread/moved to by the given entity.
+    /// </summary>
+    /// <returns></returns>
+    private bool CheckAhead(Entity entity, Vector2Int position)
+    {
+        Entity nextCell = board[position.y, position.x];
+        if (nextCell.CompareTag("Neutral"))
+        {
+            return true;
+        }
+
+        if (entity.CompareTag("Player"))
+        {
+            if (nextCell.CompareTag("Trail"))
+                return true;
+        }
+        else if (entity.CompareTag("Blight"))
+        {
+
+            if (nextCell.CompareTag("Player"))
+                return false;
+
+            if (nextCell.CompareTag("Trail"))
+            {
+                if (!nextCell.colour.Equals(entity.colour)) {  // better way to do?
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     IEnumerator SpreadCycle()
@@ -88,21 +136,36 @@ public class GameController : MonoBehaviour {
             // TODO spread blight here
         }
          */
+        RefreshGameState();
         yield return moveWaitTime;
+    }
+
+    /// <summary>
+    /// Updates the game state to match the board state.
+    /// </summary>
+    private void RefreshGameState()
+    {
+        for (int r = 0; r < HEIGHT; r++)
+        {
+            for (int c = 0; c < WIDTH; c++)
+            {
+                //print(board[r, c]);
+            }
+        }
     }
 
     private void SpawnPlayers()
     {
         for (int i = 0; i < numberOfPlayers; i++)
         {
-            GameObject playerInstance = Instantiate(PlayerPrefab, spawnPoints[i].position, Quaternion.identity, transform);
+            GameObject playerInstance = Instantiate(PlayerPrefab, spawnPoints[i].position, Quaternion.identity, spawnPoints[i]);
             playerInstance.name = "Player_" + i;
             PlayerScript playerScript = playerInstance.GetComponent<PlayerScript>();
             playerScript.SetPlayerColour(playerColours[i]);
             playerScript.SetPlayerNumber(i);
             playersList.Add(playerScript);
 
-            //board[spawnPoints[i].y, spawnPoints[i].x] = playerScript;
+            board[(int)spawnPoints[i].localPosition.y, (int)spawnPoints[i].localPosition.x] = playerScript;
         }
     }
 	

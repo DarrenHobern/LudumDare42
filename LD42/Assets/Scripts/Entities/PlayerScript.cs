@@ -12,6 +12,7 @@ public class PlayerScript : Entity {
     private string horizontalInput = "Horizontal0";
     private string verticalInput = "Vertical0";
     private Vector3Int direction = Vector3Int.up;
+    public Vector3Int Direction { get; private set; }
 
     public void SetPlayerColour(Colour playerColour)
     {
