@@ -75,22 +75,27 @@ public class GameController : MonoBehaviour {
             for (int i = 0; i < playersList.Count; i++)
             {
                 PlayerScript player = playersList[i];
-                // Add the trail under the players current position
-                Vector2Int oldPos = Vector2Int.RoundToInt(player.transform.localPosition);
-                board[oldPos.y, oldPos.x].SetSprite(player.colour.trail);
-                board[oldPos.y, oldPos.x].tag = "Trail";
-
-                // move the player, checking that they can move to the new spot
-                Vector2Int newPos = oldPos + Vector2Int.RoundToInt((Vector3)player.Direction);
-                if (CheckAhead(player, newPos))
+                Vector2Int oldPos = Vector2Int.RoundToInt(player.transform.position);
+                Vector2Int newPos = oldPos + player.Direction;
+                if (CheckAhead(player, newPos)) // if we can move
                 {
-                    print("VALID!");
+                    // move the player
                     player.MoveStep();
+
+                    // set the old position to a trail
+                    board[oldPos.y, oldPos.x].SetSprite(player.colour.trail);
+                    board[oldPos.y, oldPos.x].type = Entity.EntityType.TRAIL;
+
+                    print(player.name + " VALID: " + oldPos + " --> " + newPos + " DIRECTION " + player.Direction);
+
+                    board[newPos.y, newPos.x].type = Entity.EntityType.PLAYER;
                 }
-                board[newPos.y, newPos.x] = player;
+                else
+                {
+                    print(player.name + " invalid: " + oldPos + " --> " + newPos + " DIRECTION " + player.Direction);
+                }
             }
 
-            RefreshGameState();
             yield return moveWaitTime;
         }
     }
@@ -101,26 +106,33 @@ public class GameController : MonoBehaviour {
     /// <returns></returns>
     private bool CheckAhead(Entity entity, Vector2Int position)
     {
+        // Check if attempting to move off the board
+        if (position.x >= WIDTH || position.x < 0 || position.y >= HEIGHT || position.y < 0)
+        {
+            return false;
+        }
+
         Entity nextCell = board[position.y, position.x];
-        if (nextCell.CompareTag("Neutral"))
+        print(nextCell.type);
+        // Anything can move onto neutral tiles
+        if (nextCell.type == Entity.EntityType.NEUTRAL)
         {
             return true;
         }
 
-        if (entity.CompareTag("Player"))
+        if (entity.type == Entity.EntityType.PLAYER)
         {
-            if (nextCell.CompareTag("Trail"))
-                return true;
-        }
-        else if (entity.CompareTag("Blight"))
-        {
-
-            if (nextCell.CompareTag("Player"))
-                return false;
-
-            if (nextCell.CompareTag("Trail"))
+            if (nextCell.type == Entity.EntityType.TRAIL)
             {
-                if (!nextCell.colour.Equals(entity.colour)) {  // better way to do?
+                return true;
+            }
+        }
+        else if (entity.type == Entity.EntityType.BLIGHT)
+        {
+            if (nextCell.type == Entity.EntityType.TRAIL)
+            {
+                if (!nextCell.colour.Equals(entity.colour))  // better way to do?
+                {
                     return true;
                 }
             }
@@ -136,22 +148,7 @@ public class GameController : MonoBehaviour {
             // TODO spread blight here
         }
          */
-        RefreshGameState();
         yield return moveWaitTime;
-    }
-
-    /// <summary>
-    /// Updates the game state to match the board state.
-    /// </summary>
-    private void RefreshGameState()
-    {
-        for (int r = 0; r < HEIGHT; r++)
-        {
-            for (int c = 0; c < WIDTH; c++)
-            {
-                //print(board[r, c]);
-            }
-        }
     }
 
     private void SpawnPlayers()
@@ -165,7 +162,7 @@ public class GameController : MonoBehaviour {
             playerScript.SetPlayerNumber(i);
             playersList.Add(playerScript);
 
-            board[(int)spawnPoints[i].localPosition.y, (int)spawnPoints[i].localPosition.x] = playerScript;
+            board[(int)spawnPoints[i].localPosition.y, (int)spawnPoints[i].localPosition.x].type = Entity.EntityType.PLAYER;
         }
     }
 	

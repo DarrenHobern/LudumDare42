@@ -7,4 +7,9 @@ public class Colour : ScriptableObject {
 
     public Sprite trail;
     public Sprite blight;
+
+    public override string ToString()
+    {
+        return trail.name;
+    }
 }

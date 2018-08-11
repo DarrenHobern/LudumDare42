@@ -11,12 +11,23 @@ public class PlayerScript : Entity {
     [Tooltip("In tile per second")][SerializeField] int moveSpeed = 1;
     private string horizontalInput = "Horizontal0";
     private string verticalInput = "Vertical0";
-    private Vector3Int direction = Vector3Int.up;
-    public Vector3Int Direction { get; private set; }
+    private Vector2Int direction = Vector2Int.up;
+    public Vector2Int Direction
+    {
+        get
+        {
+            return direction;
+        }
+        private set
+        {
+            direction = value;
+        }
+    }
 
     public void SetPlayerColour(Colour playerColour)
     {
         colour = playerColour;
+        print("Setting the players colour to: " + playerColour);
         // TODO change the player sprite to their colour
     }
 
@@ -31,19 +42,27 @@ public class PlayerScript : Entity {
         float horizontal = Input.GetAxisRaw(horizontalInput);
         float vertical = Input.GetAxisRaw(verticalInput);
 
-        if (horizontal > 0 || horizontal < 0)
+        if (horizontal > Mathf.Epsilon)
         {
-            direction = new Vector3Int((int)horizontal, 0, 0);
+            direction = Vector2Int.right;
         }
-        else if (vertical > 0 || vertical < 0)
+        else if (horizontal < -Mathf.Epsilon)
         {
-            direction = new Vector3Int(0, (int)vertical, 0);
+            direction = Vector2Int.left;
         }
-	}
+        else if (vertical > Mathf.Epsilon)
+        {
+            direction = Vector2Int.up;
+        }
+        else if (vertical < -Mathf.Epsilon)
+        {
+            direction = Vector2Int.down;
+        }
+    }
 
     public void MoveStep()
     {
-        transform.position = Vector3Int.RoundToInt(transform.position + direction);
+        transform.position = new Vector3(transform.position.x + direction.x, transform.position.y + direction.y);
         // Spawn a trail thing here?
     }
 }
