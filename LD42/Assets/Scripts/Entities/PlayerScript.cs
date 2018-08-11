@@ -8,6 +8,8 @@ public class PlayerScript : Entity {
     const string HORIZONTALINPUT = "Horizontal{0}";
     const string VERTICALINPUT = "Vertical{0}";
 
+    private SpriteRenderer spriteRenderer;
+
     [Tooltip("In tile per second")][SerializeField] int moveSpeed = 1;
     private string horizontalInput = "Horizontal0";
     private string verticalInput = "Vertical0";
@@ -24,11 +26,15 @@ public class PlayerScript : Entity {
         }
     }
 
-    public void SetPlayerColour(Colour playerColour)
+    private void Awake()
     {
-        colour = playerColour;
-        print("Setting the players colour to: " + playerColour);
-        // TODO change the player sprite to their colour
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void SetPlayerColour(Colour colour)
+    {
+        this.colour = colour;
+        spriteRenderer.sprite = colour.playerSprite;
     }
 
     public void SetPlayerNumber(int number)
@@ -45,24 +51,28 @@ public class PlayerScript : Entity {
         if (horizontal > Mathf.Epsilon)
         {
             direction = Vector2Int.right;
+            transform.rotation = Quaternion.Euler(0, 0, -90);
         }
         else if (horizontal < -Mathf.Epsilon)
         {
             direction = Vector2Int.left;
+            transform.rotation = Quaternion.Euler(0, 0, 90);
         }
         else if (vertical > Mathf.Epsilon)
         {
             direction = Vector2Int.up;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else if (vertical < -Mathf.Epsilon)
         {
             direction = Vector2Int.down;
+            transform.rotation = Quaternion.Euler(0, 0, 180);
         }
+        
     }
 
     public void MoveStep()
     {
         transform.position = new Vector3(transform.position.x + direction.x, transform.position.y + direction.y);
-        // Spawn a trail thing here?
     }
 }

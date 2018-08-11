@@ -11,5 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e88c9fe34cff0642863eae4dac227a0, type: 3}
   m_Name: Green
   m_EditorClassIdentifier: 
+  player: {fileID: 7400000, guid: 3945727c96fcda142afb2b488dc943e2, type: 2}
   trail: {fileID: 21300010, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}
   blight: {fileID: 21300008, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}

@@ -11,5 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e88c9fe34cff0642863eae4dac227a0, type: 3}
   m_Name: Purple
   m_EditorClassIdentifier: 
+  player: {fileID: 7400000, guid: 47ed165b3750a504a8a8bd43036b6f6c, type: 2}
   trail: {fileID: 21300002, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}
   blight: {fileID: 21300000, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}

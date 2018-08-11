@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour {
         StartGame();
     }
 
-    void StartGame() {
+    public void StartGame() {
         // Initialise the board
         GenerateBoard();
         // Spawn the players
@@ -86,13 +86,7 @@ public class GameController : MonoBehaviour {
                     board[oldPos.y, oldPos.x].SetSprite(player.colour.trail);
                     board[oldPos.y, oldPos.x].type = Entity.EntityType.TRAIL;
 
-                    print(player.name + " VALID: " + oldPos + " --> " + newPos + " DIRECTION " + player.Direction);
-
                     board[newPos.y, newPos.x].type = Entity.EntityType.PLAYER;
-                }
-                else
-                {
-                    print(player.name + " invalid: " + oldPos + " --> " + newPos + " DIRECTION " + player.Direction);
                 }
             }
 
@@ -113,7 +107,6 @@ public class GameController : MonoBehaviour {
         }
 
         Entity nextCell = board[position.y, position.x];
-        print(nextCell.type);
         // Anything can move onto neutral tiles
         if (nextCell.type == Entity.EntityType.NEUTRAL)
         {
@@ -131,7 +124,7 @@ public class GameController : MonoBehaviour {
         {
             if (nextCell.type == Entity.EntityType.TRAIL)
             {
-                if (!nextCell.colour.Equals(entity.colour))  // better way to do?
+                if (!nextCell.colour.Equals(entity.colour))
                 {
                     return true;
                 }
