@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Colour { GREEN, BLUE, RED, PURPLE }
-
 public class GameController : MonoBehaviour {
 
     #region board
@@ -14,6 +12,7 @@ public class GameController : MonoBehaviour {
 
     #region Player
     // ========== PLAYERS ==========
+    [SerializeField] Colour[] playerColours;
     [SerializeField] GameObject PlayerPrefab;
     [SerializeField] int numberOfPlayers = 2; // TODO change this to be set in the menu
     [SerializeField] Transform[] spawnPoints;
@@ -32,7 +31,10 @@ public class GameController : MonoBehaviour {
     // ========== FUNCTIONS ==========
     private void Awake()
     {
+        // Error Checking
         Debug.Assert(PlayerPrefab.GetComponent<PlayerScript>() != null);
+        Debug.Assert(playerColours.Length >= numberOfPlayers);
+
         moveWaitTime = new WaitForSeconds(moveTick);
         spreadWaitTime = new WaitForSeconds(blightSpreadTick);
     }
@@ -82,7 +84,10 @@ public class GameController : MonoBehaviour {
         {
             GameObject playerInstance = Instantiate(PlayerPrefab, spawnPoints[i].position, Quaternion.identity, transform);
             playerInstance.name = "Player_" + i;
-            playersList.Add(playerInstance.GetComponent<PlayerScript>());
+            PlayerScript playerScript = playerInstance.GetComponent<PlayerScript>();
+            playerScript.SetPlayerColour(playerColours[i]);
+            playerScript.SetPlayerNumber(i);
+            playersList.Add(playerScript);
 
         }
     }

@@ -311,6 +311,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldTransform: {fileID: 1257949229}
+  playerColours:
+  - {fileID: 11400000, guid: cab5238056b06ea4f9af6d71e27bfff3, type: 2}
+  - {fileID: 11400000, guid: cc927428903c9f84e90bdfc3bdd72725, type: 2}
+  - {fileID: 11400000, guid: 28bb9343eb5955a478ec5828fef0d1b7, type: 2}
+  - {fileID: 11400000, guid: 1ae20d6096b27b54c85b11702ce8b8bb, type: 2}
   PlayerPrefab: {fileID: 1929167522337664, guid: d95a9d5a84b9ff145b26f43fa4d7d7c2,
     type: 2}
   numberOfPlayers: 2

@@ -2,16 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerScript : MonoBehaviour {
 
+    const string HORIZONTALINPUT = "Horizontal{0}";
+    const string VERTICALINPUT = "Vertical{0}";
+
     [Tooltip("In tile per second")][SerializeField] int moveSpeed = 1;
+    private string horizontalInput = "Horizontal0";
+    private string verticalInput = "Vertical0";
     private Vector3Int direction = Vector3Int.up;
-    private Colour playerColour = Colour.GREEN;
+    private Colour playerColour = null;
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void SetPlayerColour(Colour colour)
+    {
+        playerColour = colour;
+        spriteRenderer.sprite = playerColour.goodSprite;
+    }
+
+    public void SetPlayerNumber(int number)
+    {
+        horizontalInput = string.Format(HORIZONTALINPUT, number);
+        verticalInput = string.Format(VERTICALINPUT, number);
+    }
 
 	// Update is called once per frame
 	void Update () {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        print(horizontalInput);
+        float horizontal = Input.GetAxisRaw(horizontalInput);
+        float vertical = Input.GetAxisRaw(verticalInput);
 
         if (horizontal > 0 || horizontal < 0)
         {
@@ -25,7 +50,6 @@ public class PlayerScript : MonoBehaviour {
 
     public void MoveStep()
     {
-        print("Moving player " + name);
         transform.position = transform.position + direction;
         // Spawn a trail thing here?
     }
