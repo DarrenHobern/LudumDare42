@@ -394,6 +394,7 @@ MonoBehaviour:
   - {fileID: 207208770}
   moveTick: 0.5
   blightSpreadTick: 2
+  blightSpreadRate: 1
 --- !u!1 &1257949228
 GameObject:
   m_ObjectHideFlags: 0
