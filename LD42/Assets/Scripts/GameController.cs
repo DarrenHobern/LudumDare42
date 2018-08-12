@@ -40,6 +40,9 @@ public class GameController : MonoBehaviour {
     [Tooltip("Time in seconds between spawning a new piece of blight")]
     [SerializeField] float blightSpawnRate = 6;
     private WaitForSeconds spawnWaitTime;
+
+    // PAUSING
+    private bool playing = true;
     #endregion
 
 
@@ -64,10 +67,9 @@ public class GameController : MonoBehaviour {
     }
 
     public void StartGame() {
-        // Initialise the board
         GenerateBoard();
-        // Spawn the players
         SpawnPlayers();
+
         StartCoroutine(MoveCycle());
         StartCoroutine(SpreadCycle());
         StartCoroutine(SpawnCycle());
@@ -85,6 +87,12 @@ public class GameController : MonoBehaviour {
                 entity.name = string.Format("{0}_{1},{2}", entity.type, c, r);
                 gameBoard[r, c] = instance.GetComponent<Entity>();
             }
+        }
+
+        // Spawn a blight of each type
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            SpawnBlight(playerColours[i]);
         }
     }
 
@@ -151,8 +159,11 @@ public class GameController : MonoBehaviour {
 
     IEnumerator MoveCycle()
     {
-        while (true) // TODO change this to playing game state or something
+        while (true)
         {
+            if (!playing)
+                yield return null;
+
             for (int i = 0; i < playersList.Count; i++)
             {
                 PlayerScript player = playersList[i];
@@ -167,15 +178,18 @@ public class GameController : MonoBehaviour {
                     gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
                 }
             }
-
+            // TODO add score here
             yield return moveWaitTime;
         }
     }
 
     IEnumerator SpreadCycle()
     {
-        while (true) // TODO change this to playing game state or something
+        while (true)
         {
+            if (!playing)
+                yield return null;
+
             yield return spreadWaitTime;
 
             Dictionary<Vector2Int, Entity> spreadPositions = new Dictionary<Vector2Int, Entity>();
@@ -203,22 +217,29 @@ public class GameController : MonoBehaviour {
     {
         while(true) // TODO change to playing
         {
-            SpawnBlight();
+            if (!playing)
+                yield return null;
+
             yield return spawnWaitTime;
+            SpawnBlight();
         }
     }
 
-    private void SpawnBlight()
+    private void SpawnBlight(Colour playerColour = null)
     {
         int row = Random.Range(0, HEIGHT-1);
         int col = Random.Range(0, WIDTH-1);
-        int colourIndex = Random.Range(0, numberOfPlayers);
         Vector2Int position = new Vector2Int(col, row);
-        Colour colour = playerColours[colourIndex];
+
+        if (playerColour == null)
+        {
+            int colourIndex = Random.Range(0, numberOfPlayers);
+            playerColour = playerColours[colourIndex];
+        }
         
         if (gameBoard[position.y, position.x].type == Entities.TRAIL || gameBoard[position.y, position.x].type == Entities.NEUTRAL)
         {
-            SetEntityType(Entities.BLIGHT, colour, position);
+            SetEntityType(Entities.BLIGHT, playerColour, position);
         }
     }
 
