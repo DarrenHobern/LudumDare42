@@ -9,8 +9,8 @@ public class GameController : MonoBehaviour {
     [SerializeField] GameObject entityPrefab;
     [SerializeField] Colour neutralColour;
     [SerializeField] Transform worldTransform;
-    const int WIDTH = 18;
-    const int HEIGHT = 10;
+    const int WIDTH = 36;
+    const int HEIGHT = 20;
     Entity[,] gameBoard = new Entity[HEIGHT, WIDTH];
     #endregion
 
@@ -57,7 +57,9 @@ public class GameController : MonoBehaviour {
 
     private void Start()
     {
-		numberOfPlayers = GameData.instance.numberOfPlayers;
+        if (GameData.instance != null)
+            numberOfPlayers = GameData.instance.numberOfPlayers;
+
         StartGame();
     }
 
@@ -116,10 +118,7 @@ public class GameController : MonoBehaviour {
         {
             if (nextCell.type == Entities.TRAIL)
             {
-                if (!nextCell.colour.Equals(entity.colour))
-                {
-                    return true;
-                }
+                return (!entity.colour.Equals(nextCell.colour));
             }
         }
         return false;
@@ -128,6 +127,7 @@ public class GameController : MonoBehaviour {
     private void SetEntityType(Entities type, Colour colour, Vector2Int position)
     {
         gameBoard[position.y, position.x].type = type;
+        gameBoard[position.y, position.x].colour = colour;
         gameBoard[position.y, position.x].name = string.Format("{0}_{1},{2}", type, position.x, position.y);
         gameBoard[position.y, position.x].SetEffectsActive(false);
         switch (type)
@@ -140,7 +140,6 @@ public class GameController : MonoBehaviour {
                 gameBoard[position.y, position.x].SetSprite(colour.trail);
                 break;
             case Entities.BLIGHT:
-                gameBoard[position.y, position.x].colour = colour;
                 gameBoard[position.y, position.x].SetSprite(colour.blight);
                 gameBoard[position.y, position.x].SetEffectsActive(true);
                 break;
@@ -211,9 +210,10 @@ public class GameController : MonoBehaviour {
 
     private void SpawnBlight()
     {
-        int spawnPosition = Random.Range(0, (WIDTH * HEIGHT));
+        int row = Random.Range(0, HEIGHT-1);
+        int col = Random.Range(0, WIDTH-1);
         int colourIndex = Random.Range(0, numberOfPlayers);
-        Vector2Int position = new Vector2Int(spawnPosition % HEIGHT, spawnPosition / WIDTH);
+        Vector2Int position = new Vector2Int(col, row);
         Colour colour = playerColours[colourIndex];
         
         if (gameBoard[position.y, position.x].type == Entities.TRAIL || gameBoard[position.y, position.x].type == Entities.NEUTRAL)
