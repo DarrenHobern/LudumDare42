@@ -25,13 +25,12 @@ public class Entity : MonoBehaviour {
         effects.gameObject.SetActive(active);
     }
 
-
     public override bool Equals(object other)
     {
         if (!other.GetType().Equals(typeof(Entity)))
             return false;
 
-        return (colour.Equals(((Entity)other).colour) && type == ((Entity)other).type);
+        return (colour == ((Entity)other).colour && type == ((Entity)other).type);
     }
 
     public override int GetHashCode()
