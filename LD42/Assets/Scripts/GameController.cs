@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Game Control
+    // ========== GAME ==========
     [Tooltip("Time in seconds between move steps by the players")]
     [SerializeField] float moveTick;
     private WaitForSeconds moveWaitTime;
@@ -35,6 +36,9 @@ public class GameController : MonoBehaviour {
 
     [Tooltip("Number of adjacent entities blight will spread to each SpreadTick")]
     [SerializeField] int blightSpreadRate = 1;
+
+    [Tooltip("Time in seconds between spawning a new piece of blight")]
+    [SerializeField] float blightSpawnRate = 6;
     #endregion
 
 
@@ -61,6 +65,7 @@ public class GameController : MonoBehaviour {
         SpawnPlayers();
         StartCoroutine(MoveCycle());
         StartCoroutine(SpreadCycle());
+        StartCoroutine(SpawnCycle());
     }
 
     private void GenerateBoard()
@@ -76,7 +81,6 @@ public class GameController : MonoBehaviour {
                 gameBoard[r, c] = instance.GetComponent<Entity>();
             }
         }
-        SetEntityType(Entities.BLIGHT, playerColours[0], new Vector2Int(2, 0));
     }
 
     /// <summary>
@@ -192,6 +196,14 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    IEnumerator SpawnCycle()
+    {
+        while(true) // TODO change to playing
+        {
+            //
+        }
+    }
+
     /// <summary>
     /// Sets the entities at all the stored positions in the given dictionary.
     /// </summary>
@@ -202,6 +214,7 @@ public class GameController : MonoBehaviour {
         {
             Entity entity = spreadPositions[pos];
             SetEntityType(entity.type, entity.colour, pos);
+            print(entity.colour + " " + entity.type);
         }
     }
 
@@ -261,7 +274,6 @@ public class GameController : MonoBehaviour {
                 return;
 
             int index = Random.Range(0, validPositions.Count);
-            print(string.Format("{0} / {1}", index, validPositions.Count));
             // If there is a conflict between two entities spreading to the same location,
             // randomly pick one to override the other
             if (spreadPositions.ContainsKey(validPositions[index]))
