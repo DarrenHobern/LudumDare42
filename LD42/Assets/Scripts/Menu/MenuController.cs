@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour {
 	{
 		Start,
 		Continue,
+		ReturnToMainMenu,
 		Quit
 	}
 
@@ -103,6 +104,9 @@ public class MenuController : MonoBehaviour {
 					gameController.playing = true;
 					gameObject.SetActive(false);
 				}
+				break;
+			case ButtonType.ReturnToMainMenu:
+				SceneManager.LoadScene(0);
 				break;
 			case ButtonType.Quit:
 				QuitGame();
