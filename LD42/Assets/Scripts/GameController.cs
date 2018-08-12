@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour {
 
     [Tooltip("Time in seconds between spawning a new piece of blight")]
     [SerializeField] float blightSpawnRate = 6;
+    private WaitForSeconds spawnWaitTime;
     #endregion
 
 
@@ -51,6 +52,7 @@ public class GameController : MonoBehaviour {
 
         moveWaitTime = new WaitForSeconds(moveTick);
         spreadWaitTime = new WaitForSeconds(blightSpreadTick);
+        spawnWaitTime = new WaitForSeconds(blightSpawnRate);
     }
 
     private void Start()
@@ -201,6 +203,7 @@ public class GameController : MonoBehaviour {
         while(true) // TODO change to playing
         {
             //
+            yield return spawnWaitTime;
         }
     }
 
