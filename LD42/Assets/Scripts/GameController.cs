@@ -139,6 +139,7 @@ public class GameController : MonoBehaviour {
                 gameBoard[position.y, position.x].SetSprite(colour.trail);
                 break;
             case Entities.BLIGHT:
+                gameBoard[position.y, position.x].colour = colour;
                 gameBoard[position.y, position.x].SetSprite(colour.blight);
                 gameBoard[position.y, position.x].SetEffectsActive(true);
                 break;
@@ -202,8 +203,21 @@ public class GameController : MonoBehaviour {
     {
         while(true) // TODO change to playing
         {
-            //
+            SpawnBlight();
             yield return spawnWaitTime;
+        }
+    }
+
+    private void SpawnBlight()
+    {
+        int spawnPosition = Random.Range(0, (WIDTH * HEIGHT));
+        int colourIndex = Random.Range(0, numberOfPlayers);
+        Vector2Int position = new Vector2Int(spawnPosition % HEIGHT, spawnPosition / WIDTH);
+        Colour colour = playerColours[colourIndex];
+        
+        if (gameBoard[position.y, position.x].type == Entities.TRAIL || gameBoard[position.y, position.x].type == Entities.NEUTRAL)
+        {
+            SetEntityType(Entities.BLIGHT, colour, position);
         }
     }
 
@@ -217,7 +231,6 @@ public class GameController : MonoBehaviour {
         {
             Entity entity = spreadPositions[pos];
             SetEntityType(entity.type, entity.colour, pos);
-            print(entity.colour + " " + entity.type);
         }
     }
 
