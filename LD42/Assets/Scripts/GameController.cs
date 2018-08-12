@@ -176,8 +176,13 @@ public class GameController : MonoBehaviour {
     {
         while (true)
         {
+            yield return moveWaitTime;
+
             if (!playing)
-                yield return null;
+            {
+                yield return new WaitWhile(() => !playing) ;
+            }
+
 
             for (int i = 0; i < playersList.Count; i++)
             {
@@ -194,7 +199,6 @@ public class GameController : MonoBehaviour {
                 }
             }
             // TODO add score here
-            yield return moveWaitTime;
         }
     }
 
@@ -202,10 +206,13 @@ public class GameController : MonoBehaviour {
     {
         while (true)
         {
-            if (!playing)
-                yield return null;
-
             yield return spreadWaitTime;
+
+            if (!playing)
+            {
+                yield return new WaitWhile(() => !playing);
+            }
+
 
             Dictionary<Vector2Int, Entity> spreadPositions = new Dictionary<Vector2Int, Entity>();
             // Iterate over the gameBoard
@@ -224,7 +231,6 @@ public class GameController : MonoBehaviour {
                 }
             }
             ApplySpread(spreadPositions);
-            
         }
     }
 
@@ -232,10 +238,13 @@ public class GameController : MonoBehaviour {
     {
         while(true) // TODO change to playing
         {
-            if (!playing)
-                yield return null;
-
             yield return spawnWaitTime;
+
+            if (!playing)
+            {
+                yield return new WaitWhile(() => !playing);
+            }
+
             SpawnBlight();
         }
     }
