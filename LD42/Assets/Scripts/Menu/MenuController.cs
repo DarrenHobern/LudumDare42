@@ -52,7 +52,7 @@ public class MenuController : MonoBehaviour {
 		}
 		if (Input.GetButtonDown("Horizontal0"))
 		{
-			numberOfPlayers = (int)((numberOfPlayers + horizontal - 1) % maxNumberOfPlayers) + 1;
+			numberOfPlayers = (int)((numberOfPlayers + horizontal - 1 + maxNumberOfPlayers) % maxNumberOfPlayers) + 1;
 			ChangeGUI();
 		}
 		if (Input.GetButtonDown("Vertical0"))
