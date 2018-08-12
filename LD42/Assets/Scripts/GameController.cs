@@ -57,6 +57,7 @@ public class GameController : MonoBehaviour {
 
     private void Start()
     {
+		numberOfPlayers = GameData.instance.numberOfPlayers;
         StartGame();
     }
 

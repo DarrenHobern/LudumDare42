@@ -6,7 +6,7 @@ public class GameData : MonoBehaviour {
 
 	public static GameData instance;
 
-	public float numberOfPlayers;
+	public int numberOfPlayers;
 
 	// Use this for initialization
 	void Awake () {
