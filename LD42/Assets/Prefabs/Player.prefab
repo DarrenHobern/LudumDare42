@@ -11,16 +11,16 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1929167522337664}
   m_IsPrefabParent: 1
---- !u!1 &1281918520852020
+--- !u!1 &1663688998113624
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4212070976752278}
-  - component: {fileID: 212745499105892528}
-  - component: {fileID: 95084888724043358}
+  - component: {fileID: 4809427924443092}
+  - component: {fileID: 212340439464530574}
+  - component: {fileID: 95085442546353608}
   m_Layer: 0
   m_Name: Car_Wheel_Anim_0
   m_TagString: Untagged
@@ -55,30 +55,30 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4212070976752278}
+  - {fileID: 4809427924443092}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4212070976752278
+--- !u!4 &4809427924443092
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1281918520852020}
+  m_GameObject: {fileID: 1663688998113624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.018, y: 0.01, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4104340068725860}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95084888724043358
+--- !u!95 &95085442546353608
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1281918520852020}
+  m_GameObject: {fileID: 1663688998113624}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 0b2f4d89299bb994ba5e3992405f5001, type: 2}
@@ -104,12 +104,12 @@ MonoBehaviour:
   colour: {fileID: 11400000, guid: 28bb9343eb5955a478ec5828fef0d1b7, type: 2}
   type: 3
   moveSpeed: 1
---- !u!212 &212745499105892528
+--- !u!212 &212340439464530574
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1281918520852020}
+  m_GameObject: {fileID: 1663688998113624}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -139,7 +139,7 @@ SpriteRenderer:
   m_SortingLayerID: -1554534359
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 5cf38d998a6232c4398797174a72ba9d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8f8ebf839b8ed7459537764d4a4e5d5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
