@@ -1,10 +1,15 @@
 fileFormatVersion: 2
-guid: 018c8f1e38b6d9a40b8e09d809b28fee
+guid: 0d26e98ddacbbd94e877c0723c4b9543
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Car_Anim_Purple_0
-    21300002: Car_Anim_Purple_1
-    21300004: Car_Anim_Purple_2
+    21300000: Disease Colourless Anim_0
+    21300002: Disease Colourless Anim_1
+    21300004: Disease Colourless Anim_2
+    21300006: Disease Colourless Anim_3
+    21300008: Disease Colourless Anim_4
+    21300010: Disease Colourless Anim_5
+    21300012: Disease Colourless Anim_6
+    21300014: Disease Colourless Anim_7
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -32,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -64,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -75,7 +80,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -86,7 +91,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,7 +102,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -108,7 +113,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -119,7 +124,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -130,7 +135,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -140,7 +145,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Car_Anim_Purple_0
+      name: Disease Colourless Anim_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 561e8333bd8b68d4bbd477bcfd29eac5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Disease Colourless Anim_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0582e8d9a769c24388cd0bc9bdcf9b9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Disease Colourless Anim_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bac19cc5b996b2c49a425ecd37036f93
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Disease Colourless Anim_3
       rect:
         serializedVersion: 2
         x: 0
@@ -154,13 +219,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8323c01e093da14a8f88d90047cf786
+      spriteID: 493b589954e58eb42a4c7706d1f51dc2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Car_Anim_Purple_1
+      name: Disease Colourless Anim_4
       rect:
         serializedVersion: 2
         x: 64
@@ -174,13 +239,33 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db208edb2f054d44f8d218a80efa8963
+      spriteID: 2d5835c1d5f068a4fbe5b9263f51a89a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Car_Anim_Purple_2
+      name: Disease Colourless Anim_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc7a3d47aa6ed3445981926a5b4b11d0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Disease Colourless Anim_6
       rect:
         serializedVersion: 2
         x: 0
@@ -194,7 +279,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a256d420ee67fd448e1d5a654b02b78
+      spriteID: 0eb696b4f1d33164c940cec95bd2cbcf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Disease Colourless Anim_7
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20deaa7e9a73f424fbb8631312de2498
       vertices: []
       indices: 
       edges: []
@@ -202,7 +307,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7e31428c12efb3f4baf9024d6066e02e
+    spriteID: 7ae167a4c15d0024da5958c920a17bff
     vertices: []
     indices: 
     edges: []
