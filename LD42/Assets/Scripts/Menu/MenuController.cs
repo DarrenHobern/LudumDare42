@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour {
+
+	[SerializeField]
+	GameController gameController;
 	public enum ButtonType
 	{
 		Start,
@@ -95,7 +98,11 @@ public class MenuController : MonoBehaviour {
 				SceneManager.LoadScene(1);
 				break;
 			case ButtonType.Continue:
-				gameObject.SetActive(false);
+				if (gameController != null)
+				{
+					gameController.playing = true;
+					gameObject.SetActive(false);
+				}
 				break;
 			case ButtonType.Quit:
 				QuitGame();

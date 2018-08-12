@@ -42,8 +42,14 @@ public class GameController : MonoBehaviour {
     private WaitForSeconds spawnWaitTime;
 
     // PAUSING
-    private bool playing = true;
+    public bool playing = true;
+
+
+	//Menu
+	[SerializeField]
+	GameObject pauseMenu;
     #endregion
+
 
 
     // ========== FUNCTIONS ==========
@@ -66,7 +72,16 @@ public class GameController : MonoBehaviour {
         StartGame();
     }
 
-    public void StartGame() {
+	private void Update()
+	{
+		if (Input.GetButtonDown("Pause"))
+		{
+			playing = false;
+			pauseMenu.SetActive(true);
+		}	
+	}
+
+	public void StartGame() {
         GenerateBoard();
         SpawnPlayers();
 
