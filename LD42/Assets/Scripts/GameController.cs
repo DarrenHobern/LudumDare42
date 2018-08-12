@@ -41,15 +41,17 @@ public class GameController : MonoBehaviour {
     [SerializeField] float blightSpawnRate = 6;
     private WaitForSeconds spawnWaitTime;
 
+    [SerializeField] int scorePerTick = 100;
+    private int score = 0;
+
     // PAUSING
     public bool playing = true;
 
+    #endregion
 
 	//Menu
 	[SerializeField]
 	GameObject pauseMenu;
-    #endregion
-
 
 
     // ========== FUNCTIONS ==========
@@ -199,6 +201,7 @@ public class GameController : MonoBehaviour {
                 }
             }
             // TODO add score here
+            score += scorePerTick;
         }
     }
 
