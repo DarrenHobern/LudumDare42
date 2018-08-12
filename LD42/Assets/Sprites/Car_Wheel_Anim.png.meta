@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: 5cf38d998a6232c4398797174a72ba9d
+guid: f8f8ebf839b8ed7459537764d4a4e5d5
 TextureImporter:
   fileIDToRecycleName:
     21300000: Car_Wheel_Anim_0
     21300002: Car_Wheel_Anim_1
+    21300004: Car_Wheel_Anim_2
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -142,6 +143,26 @@ TextureImporter:
       name: Car_Wheel_Anim_0
       rect:
         serializedVersion: 2
+        x: 0
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d601bb95fe0adae4482b85734902b2a6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Car_Wheel_Anim_1
+      rect:
+        serializedVersion: 2
         x: 64
         y: 64
         width: 64
@@ -153,13 +174,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9db01d73399dea94792a2e8ee824cd4f
+      spriteID: 321a99ef253e03447b817908cf101ba1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Car_Wheel_Anim_1
+      name: Car_Wheel_Anim_2
       rect:
         serializedVersion: 2
         x: 0
@@ -173,7 +194,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 26f82d7b335ac0c48a5b6fe84cbb076b
+      spriteID: 7c1dcee3ae6c63f4889829aea84f87e0
       vertices: []
       indices: 
       edges: []
@@ -181,7 +202,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 19fdf06f570b3e54994c13312834045d
+    spriteID: 770cfba4573207b429021a77c14977a8
     vertices: []
     indices: 
     edges: []

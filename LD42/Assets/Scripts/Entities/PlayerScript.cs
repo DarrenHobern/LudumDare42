@@ -8,8 +8,6 @@ public class PlayerScript : Entity {
     const string HORIZONTALINPUT = "Horizontal{0}";
     const string VERTICALINPUT = "Vertical{0}";
 
-    private SpriteRenderer spriteRenderer;
-
     [Tooltip("In tile per second")][SerializeField] int moveSpeed = 1;
     private string horizontalInput = "Horizontal0";
     private string verticalInput = "Vertical0";
@@ -26,15 +24,10 @@ public class PlayerScript : Entity {
         }
     }
 
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
     public void SetPlayerColour(Colour colour)
     {
         this.colour = colour;
-        spriteRenderer.sprite = colour.playerSprite;
+        SetSprite(colour.playerSprite);
     }
 
     public void SetPlayerNumber(int number)

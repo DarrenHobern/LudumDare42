@@ -5,16 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Entity : MonoBehaviour {
 
-    public enum EntityType
-    {
-        NEUTRAL,
-        BLIGHT,
-        TRAIL,
-        PLAYER
-    }
-
+    [SerializeField] Transform effects;
     public Colour colour;
-    public EntityType type = EntityType.NEUTRAL;
+    public Entities type = Entities.NEUTRAL;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -25,6 +18,11 @@ public class Entity : MonoBehaviour {
     public void SetSprite(Sprite sprite)
     {
         spriteRenderer.sprite = sprite;
+    }
+
+    public void SetEffectsActive(bool active)
+    {
+        effects.gameObject.SetActive(active);
     }
 
 
