@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1436920533983350
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d9c7d6885d079f459f0c3fdad2fe548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effects: {fileID: 4358014965754116}
   colour: {fileID: 11400000, guid: 2a235d6d77bdfee4d8db1838a8cbd45f, type: 2}
   type: 0
 --- !u!212 &212158306134334844
@@ -183,7 +184,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}
+  m_Sprite: {fileID: 21300016, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

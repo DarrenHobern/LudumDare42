@@ -375,8 +375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5f924f7c03efd4f9d18780e356f10a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntityPrefab: {fileID: 1436920533983350, guid: 044439d6ceed334459db0e7d170d5f9b,
+  entityPrefab: {fileID: 1436920533983350, guid: 044439d6ceed334459db0e7d170d5f9b,
     type: 2}
+  neutralColour: {fileID: 11400000, guid: 2a235d6d77bdfee4d8db1838a8cbd45f, type: 2}
   worldTransform: {fileID: 1257949229}
   playerColours:
   - {fileID: 11400000, guid: cab5238056b06ea4f9af6d71e27bfff3, type: 2}

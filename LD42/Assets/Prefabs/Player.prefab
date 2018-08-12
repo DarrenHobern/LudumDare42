@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b49b2a1b3b7e97428022910826faba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effects: {fileID: 4809427924443092}
   colour: {fileID: 11400000, guid: 28bb9343eb5955a478ec5828fef0d1b7, type: 2}
   type: 3
   moveSpeed: 1

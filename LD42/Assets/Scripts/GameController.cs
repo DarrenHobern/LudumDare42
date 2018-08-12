@@ -6,7 +6,8 @@ public class GameController : MonoBehaviour {
 
     #region board
     // ========== BOARD ==========
-    [SerializeField] GameObject EntityPrefab;
+    [SerializeField] GameObject entityPrefab;
+    [SerializeField] Colour neutralColour;
     [SerializeField] Transform worldTransform;
     const int WIDTH = 18;
     const int HEIGHT = 10;
@@ -62,9 +63,71 @@ public class GameController : MonoBehaviour {
         {
             for (int c = 0; c < WIDTH; c++)
             {
-                GameObject instance = Instantiate(EntityPrefab, new Vector3(c, r)+worldTransform.position, Quaternion.identity, worldTransform);
+                GameObject instance = Instantiate(entityPrefab, new Vector3(c, r)+worldTransform.position, Quaternion.identity, worldTransform);
                 board[r, c] = instance.GetComponent<Entity>();
             }
+        }
+    }
+
+    /// <summary>
+    /// Returns true if the given position is able to be spread/moved to by the given entity.
+    /// </summary>
+    /// <returns></returns>
+    private bool CheckAhead(Entity entity, Vector2Int position)
+    {
+        // Check if attempting to move off the board
+        if (position.x >= WIDTH || position.x < 0 || position.y >= HEIGHT || position.y < 0)
+        {
+            return false;
+        }
+
+        Entity nextCell = board[position.y, position.x];
+        // Anything can move onto neutral tiles
+        if (nextCell.type == Entities.NEUTRAL)
+        {
+            return true;
+        }
+
+        if (entity.type == Entities.PLAYER)
+        {
+            if (nextCell.type == Entities.TRAIL)
+            {
+                return true;
+            }
+        }
+        else if (entity.type == Entities.BLIGHT)
+        {
+            if (nextCell.type == Entities.TRAIL)
+            {
+                if (!nextCell.colour.Equals(entity.colour))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void SetEntityType(Entities type, Vector2Int position, Colour colour)
+    {
+        board[position.y, position.x].type = type;
+        board[position.y, position.x].SetEffectsActive(false);
+        switch (type)
+        {
+            case Entities.NEUTRAL:
+                board[position.y, position.x].SetSprite(neutralColour.trail);
+                break;
+            case Entities.PLAYER:
+            case Entities.TRAIL:
+                board[position.y, position.x].SetSprite(colour.trail);
+                break;
+            case Entities.BLIGHT:
+                board[position.y, position.x].SetSprite(colour.blight);
+                board[position.y, position.x].SetEffectsActive(true);
+                break;
+            default:
+                Debug.LogWarning("Attempting to set unknown entity type: " + type);
+                break;
         }
     }
 
@@ -83,10 +146,9 @@ public class GameController : MonoBehaviour {
                     player.MoveStep();
 
                     // set the old position to a trail
-                    board[oldPos.y, oldPos.x].SetSprite(player.colour.trail);
-                    board[oldPos.y, oldPos.x].type = Entity.EntityType.TRAIL;
+                    SetEntityType(Entities.TRAIL, oldPos, player.colour);
 
-                    board[newPos.y, newPos.x].type = Entity.EntityType.PLAYER;
+                    board[newPos.y, newPos.x].type = Entities.PLAYER;
                 }
             }
 
@@ -94,51 +156,15 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Returns true if the given position is able to be spread/moved to by the given entity.
-    /// </summary>
-    /// <returns></returns>
-    private bool CheckAhead(Entity entity, Vector2Int position)
-    {
-        // Check if attempting to move off the board
-        if (position.x >= WIDTH || position.x < 0 || position.y >= HEIGHT || position.y < 0)
-        {
-            return false;
-        }
-
-        Entity nextCell = board[position.y, position.x];
-        // Anything can move onto neutral tiles
-        if (nextCell.type == Entity.EntityType.NEUTRAL)
-        {
-            return true;
-        }
-
-        if (entity.type == Entity.EntityType.PLAYER)
-        {
-            if (nextCell.type == Entity.EntityType.TRAIL)
-            {
-                return true;
-            }
-        }
-        else if (entity.type == Entity.EntityType.BLIGHT)
-        {
-            if (nextCell.type == Entity.EntityType.TRAIL)
-            {
-                if (!nextCell.colour.Equals(entity.colour))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     IEnumerator SpreadCycle()
     {
         /*
         while (true) // TODO change this to playing game state or something
         {
-            // TODO spread blight here
+            Iterate over the board
+            if the tile is BLIGHT:
+                 add all available adjacent spaces to list
+                pick X spaces from the list and spread to there
         }
          */
         yield return moveWaitTime;
@@ -155,7 +181,7 @@ public class GameController : MonoBehaviour {
             playerScript.SetPlayerNumber(i);
             playersList.Add(playerScript);
 
-            board[(int)spawnPoints[i].localPosition.y, (int)spawnPoints[i].localPosition.x].type = Entity.EntityType.PLAYER;
+            board[(int)spawnPoints[i].localPosition.y, (int)spawnPoints[i].localPosition.x].type = Entities.PLAYER;
         }
     }
 	
