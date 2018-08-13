@@ -4,27 +4,60 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This should be broken into two different scripts for in game and the main menu
+/// </summary>
 public class MenuController : MonoBehaviour {
 
 	[SerializeField] GameController gameController;
-    [SerializeField] Selectable defaultSelection;
-	[SerializeField] Text playerCountText;
-    [SerializeField] Text[] scoreTexts;
+
+    [SerializeField] GameObject gameMenu;
+    [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject gameoverMenu;
+
+    [SerializeField] Selectable defaultMainmenuButton;
+    [SerializeField] Selectable defaultPauseButton;
+    [SerializeField] Selectable defaultGameoverButton;
+
+    [SerializeField] Text playerCountText;
     private const string defaultPlayerCountText = "▲\n{0}\n▼";
     private string[] numbers = { "ONE", "TWO", "THREE", "FOUR" };
 
-	const int maxNumberOfPlayers = 4;
+    [SerializeField] ScoreManager scoreManager;
+
 	int numberOfPlayers = 0;
 
     private void Start()
     {
-        defaultSelection.Select();
+        if (defaultMainmenuButton != null)
+            defaultMainmenuButton.Select();
+    }
+
+    private void HideAllMenus()
+    {
+        pauseMenu.SetActive(false);
+        gameoverMenu.SetActive(false);
+        gameMenu.SetActive(false);
+    }
+
+    public void ShowGame()
+    {
+        HideAllMenus();
+        gameMenu.SetActive(true);
     }
 
     public void ShowPause()
     {
-        gameObject.SetActive(true);
-        defaultSelection.Select();
+        HideAllMenus();
+        pauseMenu.SetActive(true);
+        defaultPauseButton.Select();
+    }
+
+    public void ShowGameover()
+    {
+        HideAllMenus();
+        gameoverMenu.SetActive(true);
+        defaultGameoverButton.Select();
     }
 
     // Update is called once per frame
@@ -39,7 +72,7 @@ public class MenuController : MonoBehaviour {
 
         if (Input.GetButtonDown("Vertical0"))
         {
-            numberOfPlayers = (maxNumberOfPlayers + (numberOfPlayers + (int)vertical) % maxNumberOfPlayers) % maxNumberOfPlayers;
+            numberOfPlayers = (GameController.MAXPLAYERS + (numberOfPlayers + (int)vertical) % GameController.MAXPLAYERS) % GameController.MAXPLAYERS;
             UpdatePlayerCountText();
         }
 	}
@@ -51,16 +84,7 @@ public class MenuController : MonoBehaviour {
 
     public void SetScoreText(int[] scores)
     {
-        for (int i = 0; i < scoreTexts.Length; i++)
-        {
-            scoreTexts[i].gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < scores.Length; i++)
-        {
-            scoreTexts[i].gameObject.SetActive(true);
-            scoreTexts[i].text = string.Format("P{0}: {1:0000000}", i+1, scores[i]);
-        }
+        scoreManager.UpdateScoreTexts(scores);
     }
 
     public void PlayGame()

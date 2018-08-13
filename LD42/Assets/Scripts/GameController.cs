@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour {
 
     #region Player
     // ========== PLAYERS ==========
+    public static readonly int MAXPLAYERS = 4;
     [SerializeField] Colour[] playerColours;
     private Dictionary<Colour, int> colourToPlayerDict = new Dictionary<Colour, int>();
     [SerializeField] GameObject PlayerPrefab;
@@ -42,15 +43,15 @@ public class GameController : MonoBehaviour {
     [SerializeField] float blightSpawnRate = 6;
     private WaitForSeconds spawnWaitTime;
 
-    [SerializeField] int scorePerTick = 100;
+    [SerializeField] int scorePerTrail = 100;
     private int[] scores;
 
-    // PAUSING
+    // GAME STATE
     private bool playing = true;
-
+    private bool gameover = false;
     #endregion
 
-    [SerializeField] MenuController pauseMenu;
+    [SerializeField] MenuController menuController;
 
 
     // ========== FUNCTIONS ==========
@@ -82,6 +83,8 @@ public class GameController : MonoBehaviour {
 
 	private void Update()
 	{
+        if (gameover) return;
+
 		if (Input.GetButtonDown("Pause"))
         {
             if (playing)
@@ -95,29 +98,33 @@ public class GameController : MonoBehaviour {
     {
         playing = false;
         Time.timeScale = 0;
-        pauseMenu.ShowPause();
+        menuController.ShowPause();
     }
 
     public void ResumeGame()
     {
         playing = true;
         Time.timeScale = 1;
-        pauseMenu.gameObject.SetActive(false);
+        menuController.ShowGame();
     }
 
     public void EndGame()
     {
         playing = false;
+        gameover = true;
         StopAllCoroutines();
         UpdateScores();
+        menuController.ShowGameover();
     }
 
 	public void StartGame() {
-        ResumeGame();
         GenerateBoard();
         SpawnPlayers();
 
         UpdateScores();
+
+        gameover = false;
+        ResumeGame();
 
         StartCoroutine(MoveCycle());
         StartCoroutine(SpreadCycle());
@@ -183,6 +190,8 @@ public class GameController : MonoBehaviour {
 
     private void SetEntityType(Entities type, Colour colour, Vector2Int position)
     {
+        print(position);
+        print(gameBoard.GetLength(0) + " " + gameBoard.GetLength(1));
         gameBoard[position.y, position.x].type = type;
         gameBoard[position.y, position.x].colour = colour;
         gameBoard[position.y, position.x].name = string.Format("{0}_{1},{2}", type, position.x, position.y);
@@ -227,8 +236,10 @@ public class GameController : MonoBehaviour {
                     // move the player
                     player.MoveStep();
 
-                    SetEntityType(Entities.TRAIL, player.colour, oldPos);                    
-                    gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
+                    SetEntityType(Entities.TRAIL, player.colour, oldPos);
+                    SetEntityType(Entities.PLAYER, player.colour, newPos);
+                    //gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
+                    //gameBoard[newPos.y, newPos.x].colour = player.colour;
                 }
             }
             UpdateScores();
@@ -315,9 +326,10 @@ public class GameController : MonoBehaviour {
                     return;
             }
         }
-        // TODO show gameover screen
-        print("GAME OVER NERD");
+
+        menuController.ShowGameover();
         playing = false;
+        gameover = true;
     }
 
     /// <summary>
@@ -331,14 +343,14 @@ public class GameController : MonoBehaviour {
             for (int c = 0; c < WIDTH; c++)
             {
                 Entity entity = gameBoard[r, c];
-                if (entity.type == Entities.TRAIL)
+                if (entity.type == Entities.TRAIL || entity.type == Entities.PLAYER)
                 {
                     int playerIndex = colourToPlayerDict[entity.colour];
-                    scores[playerIndex] += 1;
+                    scores[playerIndex] += scorePerTrail;
                 }
             }
         }
-        pauseMenu.SetScoreText(scores);
+        menuController.SetScoreText(scores);
     }
 
     /// <summary>
@@ -437,12 +449,15 @@ public class GameController : MonoBehaviour {
         {
             GameObject playerInstance = Instantiate(PlayerPrefab, spawnPoints[i].position, Quaternion.identity, spawnPoints[i]);
             playerInstance.name = "Player_" + i;
+
             PlayerScript playerScript = playerInstance.GetComponent<PlayerScript>();
+
             playerScript.SetPlayerColour(playerColours[i]);
             playerScript.SetPlayerNumber(i);
-            playersList.Add(playerScript);
 
-            gameBoard[(int)spawnPoints[i].localPosition.y, (int)spawnPoints[i].localPosition.x].type = Entities.PLAYER;
+            playersList.Add(playerScript);
+            Vector2Int position = new Vector2Int(Mathf.FloorToInt(spawnPoints[i].localPosition.x), Mathf.FloorToInt(spawnPoints[i].localPosition.y));
+            SetEntityType(Entities.PLAYER, playerColours[i], position);
         }
     }
 	

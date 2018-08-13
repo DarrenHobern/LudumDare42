@@ -839,9 +839,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 0}
-  defaultSelection: {fileID: 1289200716}
+  gameMenu: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  gameoverMenu: {fileID: 0}
+  defaultMainmenuButton: {fileID: 1289200716}
+  defaultPauseButton: {fileID: 0}
+  defaultGameoverButton: {fileID: 0}
   playerCountText: {fileID: 2100192329}
-  scoreTexts: []
 --- !u!224 &974225759 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224705213455342936, guid: 4f5420ca56c285f4f8f0f735a325acba,
