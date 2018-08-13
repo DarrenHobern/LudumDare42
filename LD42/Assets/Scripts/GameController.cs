@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour {
     private WaitForSeconds spawnWaitTime;
 
     [SerializeField] int scorePerTick = 100;
-    private int score = 0;
+    private int[] scores;
 
     // PAUSING
     private bool playing = true;
@@ -68,6 +68,7 @@ public class GameController : MonoBehaviour {
     {
         if (GameData.instance != null)
             numberOfPlayers = GameData.instance.numberOfPlayers;
+        scores = new int[numberOfPlayers];
 
         StartGame();
     }
@@ -217,8 +218,8 @@ public class GameController : MonoBehaviour {
                     gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
                 }
             }
-            // TODO add score here
-            score += scorePerTick;
+
+            
         }
     }
 
