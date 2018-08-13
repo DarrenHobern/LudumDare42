@@ -20,9 +20,15 @@ public class MenuController : MonoBehaviour {
         defaultSelection.Select();
     }
 
+    public void ShowPause()
+    {
+        gameObject.SetActive(true);
+        defaultSelection.Select();
+    }
+
     // Update is called once per frame
     void Update () {
-
+        
 		float vertical = Input.GetAxisRaw("Vertical0");
 
         if (Input.GetButtonDown("Pause"))
@@ -52,9 +58,8 @@ public class MenuController : MonoBehaviour {
     {
         if (gameController == null)
             return;
-        
-        gameController.playing = true;
-        gameObject.SetActive(false);
+
+        gameController.ResumeGame();
     }
 
     public void ReturnToMenu()

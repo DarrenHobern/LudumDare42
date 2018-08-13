@@ -45,13 +45,11 @@ public class GameController : MonoBehaviour {
     private int score = 0;
 
     // PAUSING
-    public bool playing = true;
+    private bool playing = true;
 
     #endregion
 
-	//Menu
-	[SerializeField]
-	GameObject pauseMenu;
+    [SerializeField] MenuController pauseMenu;
 
 
     // ========== FUNCTIONS ==========
@@ -77,13 +75,32 @@ public class GameController : MonoBehaviour {
 	private void Update()
 	{
 		if (Input.GetButtonDown("Pause"))
-		{
-			playing = false;
-			pauseMenu.SetActive(true);
-		}	
-	}
+        {
+            if (playing)
+                PauseGame();
+            else
+                ResumeGame();
+        }
+    }
+
+    public void PauseGame()
+    {
+        playing = false;
+        Time.timeScale = 0;
+        pauseMenu.ShowPause();
+    }
+
+    public void ResumeGame()
+    {
+        playing = true;
+        Time.timeScale = 1;
+        pauseMenu.gameObject.SetActive(false);
+    }
+
 
 	public void StartGame() {
+
+        ResumeGame();
         GenerateBoard();
         SpawnPlayers();
 
