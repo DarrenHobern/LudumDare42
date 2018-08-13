@@ -46,6 +46,8 @@ public class GameController : MonoBehaviour {
     [SerializeField] int scorePerTrail = 100;
     private int[] scores;
 
+    [SerializeField] float gameoverCutoff = 0.2f;
+
     // GAME STATE
     private bool playing = true;
     private bool gameover = false;
@@ -258,6 +260,7 @@ public class GameController : MonoBehaviour {
 
             Dictionary<Vector2Int, Entity> spreadPositions = new Dictionary<Vector2Int, Entity>();
             // Iterate over the gameBoard
+            bool canSpread = false;
             for (int r = 0; r < HEIGHT; r++)
             {
                 for (int c = 0; c < WIDTH; c++)
@@ -268,12 +271,16 @@ public class GameController : MonoBehaviour {
                     {
                         // Spread to valid entities
                         List<Vector2Int> validEntities = GetValidAdjacent(entity, new Vector2Int(c, r));
+                        if (validEntities.Count > 0)
+                            canSpread = true;
                         SpreadToEntities(spreadPositions, entity, validEntities);
                     }
                 }
             }
             ApplySpread(spreadPositions);
-            CheckGameOver();
+            if (!canSpread) {
+                CheckGameOver();
+            }
         }
     }
 
@@ -311,23 +318,23 @@ public class GameController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Iterate over the gameBoard for any neutral tiles,
-    /// if none are found end the game.
+    /// Counts the number of neutral tiles remaining on the board
     /// </summary>
     private void CheckGameOver()
     {
+        int neutralCount = 0;
         for (int r = 0; r < HEIGHT; r++)
         {
             for (int c = 0; c < WIDTH; c++)
             {
                 if (gameBoard[r, c].type == Entities.NEUTRAL)
-                    return;
+                    neutralCount++;
             }
         }
 
-        menuController.ShowGameover();
-        playing = false;
-        gameover = true;
+        if (neutralCount/(WIDTH*HEIGHT) < gameoverCutoff)
+            EndGame();
+
     }
 
     /// <summary>

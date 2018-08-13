@@ -22,6 +22,7 @@ public class MenuController : MonoBehaviour {
     [SerializeField] Text playerCountText;
     private const string defaultPlayerCountText = "▲\n{0}\n▼";
     private string[] numbers = { "ONE", "TWO", "THREE", "FOUR" };
+    private bool buttonReset = true;
 
     [SerializeField] ScoreManager scoreManager;
 
@@ -60,6 +61,7 @@ public class MenuController : MonoBehaviour {
         defaultGameoverButton.Select();
     }
 
+    
     // Update is called once per frame
     void Update () {
         
@@ -70,10 +72,19 @@ public class MenuController : MonoBehaviour {
 			QuitGame();
 		}
 
-        if (Input.GetButtonDown("Vertical0"))
+        
+        if (vertical > 0 || vertical < 0)
         {
-            numberOfPlayers = (GameController.MAXPLAYERS + (numberOfPlayers + (int)vertical) % GameController.MAXPLAYERS) % GameController.MAXPLAYERS;
-            UpdatePlayerCountText();
+            if (buttonReset)
+            {
+                buttonReset = false;
+                numberOfPlayers = (GameController.MAXPLAYERS + (numberOfPlayers + (int)vertical) % GameController.MAXPLAYERS) % GameController.MAXPLAYERS;
+                UpdatePlayerCountText();
+            }
+        }
+        else if (!buttonReset)
+        {
+            buttonReset = true;
         }
 	}
 
