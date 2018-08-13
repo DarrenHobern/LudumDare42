@@ -7,10 +7,10 @@ public class MenuBlightSpawn : MonoBehaviour {
 	public GameObject blightTemplate;
 	public int blightNumber;
 
-	int WIDTHMIN = -9;
-	int WIDTHMAX = 9;
-	int HEIGHTMIN = -5;
-	int HEIGHTMAX = 5;
+	[SerializeField] int WIDTHMIN = -9;
+    [SerializeField] int WIDTHMAX = 9;
+    [SerializeField] int HEIGHTMIN = -5;
+    [SerializeField] int HEIGHTMAX = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -19,13 +19,13 @@ public class MenuBlightSpawn : MonoBehaviour {
 		{
 			for(int j = HEIGHTMIN; j < HEIGHTMAX; j++)
 			{
-				blightSpots.Add(new Vector2(i,j));
+				blightSpots.Add(new Vector2(transform.position.x + i*transform.localScale.x, transform.position.y + j*transform.localScale.y));
 			}
 		}
 		for(int n = 0; n < blightNumber; n++)
 		{
 			int randomInt = Random.Range(0, blightSpots.Count);
-			Instantiate(blightTemplate, gameObject.transform).transform.position = blightSpots[randomInt];
+            GameObject instance = Instantiate(blightTemplate, blightSpots[randomInt], Quaternion.identity, gameObject.transform);
 			blightSpots.RemoveAt(randomInt);
 		}
 	}

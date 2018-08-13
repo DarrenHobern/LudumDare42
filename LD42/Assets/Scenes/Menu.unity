@@ -113,6 +113,48 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &93071118
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1435019905}
+    m_Modifications:
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &342742438
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,7 +477,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -60}
-  m_SizeDelta: {x: -20, y: 44.100006}
+  m_SizeDelta: {x: -20, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413285706
 MonoBehaviour:
@@ -458,7 +500,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7603e747b4b649f4c952369a69084643, type: 3}
-    m_FontSize: 40
+    m_FontSize: 38
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 1
@@ -469,7 +511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NO. OF PLAYERS
+  m_Text: NUMBER OF PLAYERS
 --- !u!222 &413285707
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -846,6 +888,7 @@ MonoBehaviour:
   defaultPauseButton: {fileID: 0}
   defaultGameoverButton: {fileID: 0}
   playerCountText: {fileID: 2100192329}
+  scoreManager: {fileID: 0}
 --- !u!224 &974225759 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224705213455342936, guid: 4f5420ca56c285f4f8f0f735a325acba,
@@ -1200,49 +1243,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1468015842
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1468015843}
-  - component: {fileID: 1468015844}
-  m_Layer: 0
-  m_Name: BlightPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1468015843
+--- !u!4 &1468015843 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1468015842}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1435019905}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1468015844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1468015842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d7589396c53861478cf160bcd54f637, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blightTemplate: {fileID: 1317654206256788, guid: 83e7bdc123da0d14d84c4307ba92c19b,
+  m_PrefabParentObject: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e,
     type: 2}
-  blightNumber: 80
+  m_PrefabInternal: {fileID: 93071118}
 --- !u!1 &1608668992
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,7 +1531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 10}
+  m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 122, y: 136}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2100192329
