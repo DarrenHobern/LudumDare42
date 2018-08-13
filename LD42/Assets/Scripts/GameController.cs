@@ -190,8 +190,6 @@ public class GameController : MonoBehaviour {
 
     private void SetEntityType(Entities type, Colour colour, Vector2Int position)
     {
-        print(position);
-        print(gameBoard.GetLength(0) + " " + gameBoard.GetLength(1));
         gameBoard[position.y, position.x].type = type;
         gameBoard[position.y, position.x].colour = colour;
         gameBoard[position.y, position.x].name = string.Format("{0}_{1},{2}", type, position.x, position.y);
