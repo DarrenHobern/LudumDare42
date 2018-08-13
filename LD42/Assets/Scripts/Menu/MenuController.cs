@@ -4,118 +4,125 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This should be broken into two different scripts for in game and the main menu
+/// </summary>
 public class MenuController : MonoBehaviour {
 
-	[SerializeField]
-	GameController gameController;
-	public enum ButtonType
-	{
-		Start,
-		Continue,
-		ReturnToMainMenu,
-		Quit
-	}
+	[SerializeField] GameController gameController;
 
-	[System.Serializable]
-	public struct ButtonColours
-	{
-		public Color normalColour;
-		public Color highlightedColour;
-	}
+    [SerializeField] GameObject gameMenu;
+    [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject gameoverMenu;
 
-	[System.Serializable]
-	public struct MenuButton
-	{
-		public GameObject button;
-		public ButtonType buttonType;
-	}
-	public ButtonColours buttonColour;
-	public Text numberOfPlayersUIText;
+    [SerializeField] Selectable defaultMainmenuButton;
+    [SerializeField] Selectable defaultPauseButton;
+    [SerializeField] Selectable defaultGameoverButton;
 
-	public List<MenuButton> buttons;
+    [SerializeField] Text playerCountText;
+    private const string defaultPlayerCountText = "▲\n{0}\n▼";
+    private string[] numbers = { "ONE", "TWO", "THREE", "FOUR" };
+    private bool buttonReset = true;
 
-	int maxNumberOfPlayers = 4;
-	int numberOfPlayers = 1;
+    [SerializeField] ScoreManager scoreManager;
 
-	int currentIndex = 0;
+	int numberOfPlayers = 0;
 
-	// Use this for initialization
-	void Start () {
-		ChangeGUI();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    private void Start()
+    {
+        if (defaultMainmenuButton != null)
+            defaultMainmenuButton.Select();
+    }
 
-		float horizontal = Input.GetAxisRaw("Horizontal0");
+    private void HideAllMenus()
+    {
+        pauseMenu.SetActive(false);
+        gameoverMenu.SetActive(false);
+        gameMenu.SetActive(false);
+    }
+
+    public void ShowGame()
+    {
+        HideAllMenus();
+        gameMenu.SetActive(true);
+    }
+
+    public void ShowPause()
+    {
+        HideAllMenus();
+        pauseMenu.SetActive(true);
+        defaultPauseButton.Select();
+    }
+
+    public void ShowGameover()
+    {
+        HideAllMenus();
+        gameoverMenu.SetActive(true);
+        defaultGameoverButton.Select();
+    }
+
+    
+    // Update is called once per frame
+    void Update () {
+        
 		float vertical = Input.GetAxisRaw("Vertical0");
 
-		if (Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause"))
 		{
 			QuitGame();
 		}
-		if (Input.GetButtonDown("Horizontal0"))
-		{
-			numberOfPlayers = (int)((numberOfPlayers + horizontal - 1 + maxNumberOfPlayers) % maxNumberOfPlayers) + 1;
-			ChangeGUI();
-		}
-		if (Input.GetButtonDown("Vertical0"))
-		{
-			currentIndex += (int)vertical;
-			currentIndex = (currentIndex + buttons.Count) % buttons.Count;
-			ChangeGUI();
-		}
-		if (Input.GetButtonDown("Submit"))
-		{
-			ConfirmSelection(buttons[currentIndex].buttonType);
-		}
+
+        
+        if (vertical > 0 || vertical < 0)
+        {
+            if (buttonReset)
+            {
+                buttonReset = false;
+                numberOfPlayers = (GameController.MAXPLAYERS + (numberOfPlayers + (int)vertical) % GameController.MAXPLAYERS) % GameController.MAXPLAYERS;
+                UpdatePlayerCountText();
+            }
+        }
+        else if (!buttonReset)
+        {
+            buttonReset = true;
+        }
 	}
 
-	void ChangeGUI()
-	{
-		for (int i = 0; i < buttons.Count; i++)
-		{
-			//print(currentIndex);
-			//print(i == currentIndex);
-			if(i == currentIndex)
-			{
-				buttons[i].button.GetComponent<Image>().color = buttonColour.highlightedColour;
-			}
-			else
-			{
-				buttons[i].button.GetComponent<Image>().color = buttonColour.normalColour;
-			}
-		}
-		numberOfPlayersUIText.text = numberOfPlayers.ToString();
-		
-	}
+	private void UpdatePlayerCountText()
+    {
+        playerCountText.text = string.Format(defaultPlayerCountText, numbers[numberOfPlayers]);
+    }
 
-	void ConfirmSelection(ButtonType buttonType)
-	{
-		switch (buttonType)
-		{
-			case ButtonType.Start:
-				GameData.instance.SetNumberOfPlayers(numberOfPlayers);
-				SceneManager.LoadScene(1);
-				break;
-			case ButtonType.Continue:
-				if (gameController != null)
-				{
-					gameController.playing = true;
-					gameObject.SetActive(false);
-				}
-				break;
-			case ButtonType.ReturnToMainMenu:
-				SceneManager.LoadScene(0);
-				break;
-			case ButtonType.Quit:
-				QuitGame();
-				break;
-		}
-	}
+    public void SetScoreText(int[] scores)
+    {
+        scoreManager.UpdateScoreTexts(scores);
+    }
 
-	void QuitGame()
+    public void PlayGame()
+    {
+        GameData.instance.SetNumberOfPlayers(numberOfPlayers + 1);
+        SceneManager.LoadScene(1);
+    }
+
+    public void ResumeGame()
+    {
+        if (gameController == null)
+            return;
+
+        gameController.ResumeGame();
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+	public void QuitGame()
 	{
-		Application.Quit();
-	}
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                    Application.Quit();
+        #endif
+    }
 }

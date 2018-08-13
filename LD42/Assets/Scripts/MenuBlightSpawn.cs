@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuBlightSpawn : MonoBehaviour {
+    private enum Mode { FILL, RANDOM}
 
-	public GameObject blightTemplate;
-	public int blightNumber;
+	[SerializeField] GameObject blightTemplate;
+	[SerializeField] int blightNumber;
+    [SerializeField] Mode fillMode = Mode.RANDOM;
 
-	int WIDTHMIN = -9;
-	int WIDTHMAX = 9;
-	int HEIGHTMIN = -5;
-	int HEIGHTMAX = 5;
+	[SerializeField] int WIDTHMIN = -9;
+    [SerializeField] int WIDTHMAX = 9;
+    [SerializeField] int HEIGHTMIN = -5;
+    [SerializeField] int HEIGHTMAX = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -19,14 +21,23 @@ public class MenuBlightSpawn : MonoBehaviour {
 		{
 			for(int j = HEIGHTMIN; j < HEIGHTMAX; j++)
 			{
-				blightSpots.Add(new Vector2(i,j));
+                Vector2 position = new Vector2(transform.localPosition.x + i * transform.localScale.x, transform.localPosition.y + j * transform.localScale.y);
+                if (fillMode == Mode.RANDOM) {
+                    blightSpots.Add(position);
+                }
+                else {
+                    Instantiate(blightTemplate, position, Quaternion.identity, transform);
+                }
 			}
 		}
-		for(int n = 0; n < blightNumber; n++)
-		{
-			int randomInt = Random.Range(0, blightSpots.Count);
-			Instantiate(blightTemplate, gameObject.transform).transform.position = blightSpots[randomInt];
-			blightSpots.RemoveAt(randomInt);
-		}
+        if (fillMode == Mode.RANDOM)
+        {
+            for (int n = 0; n < blightNumber; n++)
+            {
+                int randomInt = Random.Range(0, blightSpots.Count);
+                GameObject instance = Instantiate(blightTemplate, blightSpots[randomInt], Quaternion.identity, transform);
+                blightSpots.RemoveAt(randomInt);
+            }
+        }
 	}
 }

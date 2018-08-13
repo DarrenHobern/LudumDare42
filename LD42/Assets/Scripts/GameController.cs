@@ -16,7 +16,9 @@ public class GameController : MonoBehaviour {
 
     #region Player
     // ========== PLAYERS ==========
+    public static readonly int MAXPLAYERS = 4;
     [SerializeField] Colour[] playerColours;
+    private Dictionary<Colour, int> colourToPlayerDict = new Dictionary<Colour, int>();
     [SerializeField] GameObject PlayerPrefab;
     [SerializeField] int numberOfPlayers = 2; // TODO change this to be set in the menu
     [SerializeField] Transform[] spawnPoints;
@@ -41,17 +43,17 @@ public class GameController : MonoBehaviour {
     [SerializeField] float blightSpawnRate = 6;
     private WaitForSeconds spawnWaitTime;
 
-    [SerializeField] int scorePerTick = 100;
-    private int score = 0;
+    [SerializeField] int scorePerTrail = 100;
+    private int[] scores;
 
-    // PAUSING
-    public bool playing = true;
+    [SerializeField] float gameoverCutoff = 0.2f;
 
+    // GAME STATE
+    private bool playing = true;
+    private bool gameover = false;
     #endregion
 
-	//Menu
-	[SerializeField]
-	GameObject pauseMenu;
+    [SerializeField] MenuController menuController;
 
 
     // ========== FUNCTIONS ==========
@@ -71,21 +73,60 @@ public class GameController : MonoBehaviour {
         if (GameData.instance != null)
             numberOfPlayers = GameData.instance.numberOfPlayers;
 
+        
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            colourToPlayerDict.Add(playerColours[i], i);
+        }
+        scores = new int[numberOfPlayers];
+
         StartGame();
     }
 
 	private void Update()
 	{
+        if (gameover) return;
+
 		if (Input.GetButtonDown("Pause"))
-		{
-			playing = false;
-			pauseMenu.SetActive(true);
-		}	
-	}
+        {
+            if (playing)
+                PauseGame();
+            else
+                ResumeGame();
+        }
+    }
+
+    public void PauseGame()
+    {
+        playing = false;
+        Time.timeScale = 0;
+        menuController.ShowPause();
+    }
+
+    public void ResumeGame()
+    {
+        playing = true;
+        Time.timeScale = 1;
+        menuController.ShowGame();
+    }
+
+    public void EndGame()
+    {
+        playing = false;
+        gameover = true;
+        StopAllCoroutines();
+        UpdateScores();
+        menuController.ShowGameover();
+    }
 
 	public void StartGame() {
         GenerateBoard();
         SpawnPlayers();
+
+        UpdateScores();
+
+        gameover = false;
+        ResumeGame();
 
         StartCoroutine(MoveCycle());
         StartCoroutine(SpreadCycle());
@@ -185,7 +226,6 @@ public class GameController : MonoBehaviour {
                 yield return new WaitWhile(() => !playing) ;
             }
 
-
             for (int i = 0; i < playersList.Count; i++)
             {
                 PlayerScript player = playersList[i];
@@ -196,12 +236,13 @@ public class GameController : MonoBehaviour {
                     // move the player
                     player.MoveStep();
 
-                    SetEntityType(Entities.TRAIL, player.colour, oldPos);                    
-                    gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
+                    SetEntityType(Entities.TRAIL, player.colour, oldPos);
+                    SetEntityType(Entities.PLAYER, player.colour, newPos);
+                    //gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
+                    //gameBoard[newPos.y, newPos.x].colour = player.colour;
                 }
             }
-            // TODO add score here
-            score += scorePerTick;
+            UpdateScores();
         }
     }
 
@@ -219,6 +260,7 @@ public class GameController : MonoBehaviour {
 
             Dictionary<Vector2Int, Entity> spreadPositions = new Dictionary<Vector2Int, Entity>();
             // Iterate over the gameBoard
+            bool canSpread = false;
             for (int r = 0; r < HEIGHT; r++)
             {
                 for (int c = 0; c < WIDTH; c++)
@@ -229,11 +271,16 @@ public class GameController : MonoBehaviour {
                     {
                         // Spread to valid entities
                         List<Vector2Int> validEntities = GetValidAdjacent(entity, new Vector2Int(c, r));
+                        if (validEntities.Count > 0)
+                            canSpread = true;
                         SpreadToEntities(spreadPositions, entity, validEntities);
                     }
                 }
             }
             ApplySpread(spreadPositions);
+            if (!canSpread) {
+                CheckGameOver();
+            }
         }
     }
 
@@ -268,6 +315,47 @@ public class GameController : MonoBehaviour {
         {
             SetEntityType(Entities.BLIGHT, playerColour, position);
         }
+    }
+
+    /// <summary>
+    /// Counts the number of neutral tiles remaining on the board
+    /// </summary>
+    private void CheckGameOver()
+    {
+        int neutralCount = 0;
+        for (int r = 0; r < HEIGHT; r++)
+        {
+            for (int c = 0; c < WIDTH; c++)
+            {
+                if (gameBoard[r, c].type == Entities.NEUTRAL)
+                    neutralCount++;
+            }
+        }
+
+        if (neutralCount/(WIDTH*HEIGHT) < gameoverCutoff)
+            EndGame();
+
+    }
+
+    /// <summary>
+    /// Iterate over the gameBoard and give points for each trail per player.
+    /// </summary>
+    private void UpdateScores()
+    {
+        scores = new int[numberOfPlayers];
+        for (int r = 0; r < HEIGHT; r++)
+        {
+            for (int c = 0; c < WIDTH; c++)
+            {
+                Entity entity = gameBoard[r, c];
+                if (entity.type == Entities.TRAIL || entity.type == Entities.PLAYER)
+                {
+                    int playerIndex = colourToPlayerDict[entity.colour];
+                    scores[playerIndex] += scorePerTrail;
+                }
+            }
+        }
+        menuController.SetScoreText(scores);
     }
 
     /// <summary>
@@ -366,12 +454,15 @@ public class GameController : MonoBehaviour {
         {
             GameObject playerInstance = Instantiate(PlayerPrefab, spawnPoints[i].position, Quaternion.identity, spawnPoints[i]);
             playerInstance.name = "Player_" + i;
+
             PlayerScript playerScript = playerInstance.GetComponent<PlayerScript>();
+
             playerScript.SetPlayerColour(playerColours[i]);
             playerScript.SetPlayerNumber(i);
-            playersList.Add(playerScript);
 
-            gameBoard[(int)spawnPoints[i].localPosition.y, (int)spawnPoints[i].localPosition.x].type = Entities.PLAYER;
+            playersList.Add(playerScript);
+            Vector2Int position = new Vector2Int(Mathf.FloorToInt(spawnPoints[i].localPosition.x), Mathf.FloorToInt(spawnPoints[i].localPosition.y));
+            SetEntityType(Entities.PLAYER, playerColours[i], position);
         }
     }
 	
