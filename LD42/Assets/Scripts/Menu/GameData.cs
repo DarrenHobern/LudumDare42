@@ -19,6 +19,7 @@ public class GameData : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		DontDestroyOnLoad(gameObject);
+        Screen.SetResolution(1280, 720, true);
 	}
 
 	public void SetNumberOfPlayers(int number)

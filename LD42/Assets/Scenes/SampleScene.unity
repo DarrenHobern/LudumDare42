@@ -1695,7 +1695,7 @@ MonoBehaviour:
   blightSpreadRate: 1
   blightSpawnRate: 6
   scorePerTrail: 10
-  gameoverCutoff: 0.2
+  gameoverCutoff: 0.15
   menuController: {fileID: 736868830}
 --- !u!1 &1257949228
 GameObject:
