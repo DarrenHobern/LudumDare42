@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
     #region Player
     // ========== PLAYERS ==========
     [SerializeField] Colour[] playerColours;
+    private Dictionary<Colour, int> colourToPlayerDict = new Dictionary<Colour, int>();
     [SerializeField] GameObject PlayerPrefab;
     [SerializeField] int numberOfPlayers = 2; // TODO change this to be set in the menu
     [SerializeField] Transform[] spawnPoints;
@@ -68,6 +69,12 @@ public class GameController : MonoBehaviour {
     {
         if (GameData.instance != null)
             numberOfPlayers = GameData.instance.numberOfPlayers;
+
+        
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            colourToPlayerDict.Add(playerColours[i], i);
+        }
         scores = new int[numberOfPlayers];
 
         StartGame();
@@ -98,12 +105,19 @@ public class GameController : MonoBehaviour {
         pauseMenu.gameObject.SetActive(false);
     }
 
+    public void EndGame()
+    {
+        playing = false;
+        StopAllCoroutines();
+        UpdateScores();
+    }
 
 	public void StartGame() {
-
         ResumeGame();
         GenerateBoard();
         SpawnPlayers();
+
+        UpdateScores();
 
         StartCoroutine(MoveCycle());
         StartCoroutine(SpreadCycle());
@@ -203,7 +217,6 @@ public class GameController : MonoBehaviour {
                 yield return new WaitWhile(() => !playing) ;
             }
 
-
             for (int i = 0; i < playersList.Count; i++)
             {
                 PlayerScript player = playersList[i];
@@ -218,8 +231,7 @@ public class GameController : MonoBehaviour {
                     gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
                 }
             }
-
-            
+            UpdateScores();
         }
     }
 
@@ -252,6 +264,7 @@ public class GameController : MonoBehaviour {
                 }
             }
             ApplySpread(spreadPositions);
+            CheckGameOver();
         }
     }
 
@@ -286,6 +299,46 @@ public class GameController : MonoBehaviour {
         {
             SetEntityType(Entities.BLIGHT, playerColour, position);
         }
+    }
+
+    /// <summary>
+    /// Iterate over the gameBoard for any neutral tiles,
+    /// if none are found end the game.
+    /// </summary>
+    private void CheckGameOver()
+    {
+        for (int r = 0; r < HEIGHT; r++)
+        {
+            for (int c = 0; c < WIDTH; c++)
+            {
+                if (gameBoard[r, c].type == Entities.NEUTRAL)
+                    return;
+            }
+        }
+        // TODO show gameover screen
+        print("GAME OVER NERD");
+        playing = false;
+    }
+
+    /// <summary>
+    /// Iterate over the gameBoard and give points for each trail per player.
+    /// </summary>
+    private void UpdateScores()
+    {
+        scores = new int[numberOfPlayers];
+        for (int r = 0; r < HEIGHT; r++)
+        {
+            for (int c = 0; c < WIDTH; c++)
+            {
+                Entity entity = gameBoard[r, c];
+                if (entity.type == Entities.TRAIL)
+                {
+                    int playerIndex = colourToPlayerDict[entity.colour];
+                    scores[playerIndex] += 1;
+                }
+            }
+        }
+        pauseMenu.SetScoreText(scores);
     }
 
     /// <summary>

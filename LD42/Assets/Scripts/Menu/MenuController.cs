@@ -53,6 +53,12 @@ public class MenuController : MonoBehaviour {
     {
         for (int i = 0; i < scoreTexts.Length; i++)
         {
+            scoreTexts[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < scores.Length; i++)
+        {
+            scoreTexts[i].gameObject.SetActive(true);
             scoreTexts[i].text = string.Format("P{0}: {1:0000000}", i+1, scores[i]);
         }
     }
