@@ -1,19 +1,10 @@
-=== MVP ===
-2d
-grid of some size 
-2 players - different colour each
-player trails cancel each other out
-have to go to different points on the grid to stop the blight from spreading.
-blight matches colour, so red - red | blue - blue
-blight spreads over neutral or invalid colour trails
-blight can spawn on trail 
+CHEMTRAILS - They're real this time!
+Our Ludum Dare 42 Jam submission - Running Out Of Space
 
-=== TO TEST ===
-forming a box 
-forming a box starts a new trail
+Play it at https://darrenh.itch.io/chemtrails
 
-=== STRECH GOALS ===
-removing floor/changing world
-box detection, make it permanent, trails decay over time
+Developed using Unity 2018.1.7f1
+Art done in Photoshop CC 
 
-additional players - scalability
+Art and Music by Sean
+Programming by Darren
