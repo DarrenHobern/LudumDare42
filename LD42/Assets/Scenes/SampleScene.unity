@@ -223,7 +223,7 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 736868830}
     - target: {fileID: 114224564497047068, guid: 77660cd453fd26e48b92df9565db7c26,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -267,11 +267,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 17.5
+      value: 21.3
       objectReference: {fileID: 0}
     - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 9.5
+      value: 13.3
       objectReference: {fileID: 0}
     - target: {fileID: 4645703672989914, guid: b00729d128ad8974bb8d86f0fba1321e, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1060,6 +1060,34 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'P3: 1000000'
+--- !u!1 &683759943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 683759944}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &683759944
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 683759943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1257949229}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &736868824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,7 +1671,7 @@ MonoBehaviour:
   entityPrefab: {fileID: 1436920533983350, guid: 044439d6ceed334459db0e7d170d5f9b,
     type: 2}
   neutralColour: {fileID: 11400000, guid: 2a235d6d77bdfee4d8db1838a8cbd45f, type: 2}
-  worldTransform: {fileID: 1257949229}
+  worldTransform: {fileID: 683759944}
   playerColours:
   - {fileID: 11400000, guid: cab5238056b06ea4f9af6d71e27bfff3, type: 2}
   - {fileID: 11400000, guid: cc927428903c9f84e90bdfc3bdd72725, type: 2}
@@ -1673,7 +1701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1257949229}
   m_Layer: 0
-  m_Name: World
+  m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1690,6 +1718,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2072711420}
+  - {fileID: 683759944}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
