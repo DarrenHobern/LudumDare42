@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSprite: {fileID: 21300002, guid: ca222cd7287862e45b48e9f34d450a75, type: 3}
   trail: {fileID: 21300010, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}
-  blight: {fileID: 21300008, guid: a22ea1f092b9925459f3d7854a77d39f, type: 3}
+  blight: {fileID: 21300008, guid: 45e7d9af705d1d14c87c4d91fd2c1815, type: 3}

@@ -67,12 +67,6 @@ public class MenuController : MonoBehaviour {
         
 		float vertical = Input.GetAxisRaw("Vertical0");
 
-        if (Input.GetButtonDown("Pause"))
-		{
-			QuitGame();
-		}
-
-        
         if (vertical > 0 || vertical < 0)
         {
             if (buttonReset)

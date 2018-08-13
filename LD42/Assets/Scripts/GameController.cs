@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour {
         }
         scores = new int[numberOfPlayers];
 
-        StartGame();
+        StartGame(true);
     }
 
 	private void Update()
@@ -119,9 +119,18 @@ public class GameController : MonoBehaviour {
         menuController.ShowGameover();
     }
 
-	public void StartGame() {
-        GenerateBoard();
-        SpawnPlayers();
+	public void StartGame(bool newGame) {
+        if (newGame)
+        {
+            GenerateBoard();
+            SpawnPlayers();
+        }
+        else
+        {
+            RestoreBoard();
+            ResetPlayers();
+            scores = new int[numberOfPlayers];
+        }
 
         UpdateScores();
 
@@ -131,6 +140,28 @@ public class GameController : MonoBehaviour {
         StartCoroutine(MoveCycle());
         StartCoroutine(SpreadCycle());
         StartCoroutine(SpawnCycle());
+    }
+
+    private void ResetPlayers()
+    {
+        for (int i = 0; i < playersList.Count; i++)
+        {
+            playersList[i].transform.position = spawnPoints[i].position;
+            SetEntityType(Entities.PLAYER, playersList[i].colour, Vector2Int.FloorToInt(spawnPoints[i].localPosition));
+        }
+    }
+
+    private void RestoreBoard()
+    {
+        for (int r = 0; r < HEIGHT; r++)
+        {
+            for (int c = 0; c < WIDTH; c++)
+            {
+                Vector2Int pos = new Vector2Int(c, r);
+                SetEntityType(Entities.NEUTRAL, neutralColour, pos);
+            }
+        }
+        SpawnInitialBlight();
     }
 
     private void GenerateBoard()
@@ -147,7 +178,14 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        // Spawn a blight of each type
+        SpawnInitialBlight();
+    }
+
+    /// <summary>
+    /// Spawn a blight of each player colour
+    /// </summary>
+    private void SpawnInitialBlight()
+    {
         for (int i = 0; i < numberOfPlayers; i++)
         {
             SpawnBlight(playerColours[i]);
@@ -238,8 +276,6 @@ public class GameController : MonoBehaviour {
 
                     SetEntityType(Entities.TRAIL, player.colour, oldPos);
                     SetEntityType(Entities.PLAYER, player.colour, newPos);
-                    //gameBoard[newPos.y, newPos.x].type = Entities.PLAYER;
-                    //gameBoard[newPos.y, newPos.x].colour = player.colour;
                 }
             }
             UpdateScores();
@@ -461,8 +497,7 @@ public class GameController : MonoBehaviour {
             playerScript.SetPlayerNumber(i);
 
             playersList.Add(playerScript);
-            Vector2Int position = new Vector2Int(Mathf.FloorToInt(spawnPoints[i].localPosition.x), Mathf.FloorToInt(spawnPoints[i].localPosition.y));
-            SetEntityType(Entities.PLAYER, playerColours[i], position);
+            SetEntityType(Entities.PLAYER, playerColours[i], Vector2Int.FloorToInt(spawnPoints[i].localPosition));
         }
     }
 	

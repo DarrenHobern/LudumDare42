@@ -734,11 +734,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 736868830}
+      objectReference: {fileID: 1210165109}
     - target: {fileID: 114224564497047068, guid: 77660cd453fd26e48b92df9565db7c26,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayGame
+      value: StartGame
       objectReference: {fileID: 0}
     - target: {fileID: 114224564497047068, guid: 77660cd453fd26e48b92df9565db7c26,
         type: 2}
@@ -755,6 +755,11 @@ Prefab:
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
       objectReference: {fileID: 1746390555}
+    - target: {fileID: 114224564497047068, guid: 77660cd453fd26e48b92df9565db7c26,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 77660cd453fd26e48b92df9565db7c26, type: 2}
   m_IsPrefabParent: 0
